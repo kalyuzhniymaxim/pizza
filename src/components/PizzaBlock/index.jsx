@@ -1,32 +1,36 @@
 import React, { useState } from 'react';
 
-function PizzaBlock() {
-  const [count, setCount] = useState(0);
-const buttonCount = ()=>{
-    setCount(count+1)
-}
+function PizzaBlock({ title, imageUrl, price, sizes, types }) {
+  const [activSize, setActivSize] = useState(0);
+  const [activTypes, setActivTypes] = useState(0);
+  const typeNames = ['тонкое', 'традиционное'];
+
   return (
     <div className="pizza-block">
-      <img
-        className="pizza-block__image"
-        src="https://tashirpizza.ru/images/products/52-1362.png"
-        alt="Pizza"
-      />
-      <h4 className="pizza-block__title">Чизбургер-пицца</h4>
+      <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
+      <h4 className="pizza-block__title">{title}</h4>
       <div className="pizza-block__selector">
         <ul>
-          <li className="active">тонкое</li>
-          <li>традиционное</li>
+          {types.map((type, i) => (
+            <li
+              key={i}
+              onClick={() => setActivTypes(i)}
+              className={activTypes === i ? 'active' : ''}>
+              {typeNames[type]}
+            </li>
+          ))}
         </ul>
         <ul>
-          <li className="active">26 см.</li>
-          <li>30 см.</li>
-          <li>40 см.</li>
+          {sizes.map((size, i) => (
+            <li key={i} onClick={() => setActivSize(i)} className={activSize === i ? 'active' : ''}>
+              {size}
+            </li>
+          ))}
         </ul>
       </div>
       <div className="pizza-block__bottom">
-        <div className="pizza-block__price">от 395 ₽</div>
-        <button onClick={buttonCount} className="button button--outline button--add">
+        <div className="pizza-block__price">от {price} ₽</div>
+        <button className="button button--outline button--add">
           <svg
             width="12"
             height="12"
@@ -39,7 +43,7 @@ const buttonCount = ()=>{
             />
           </svg>
           <span>Добавить</span>
-          <i>{count}</i>
+          <i>0</i>
         </button>
       </div>
     </div>
