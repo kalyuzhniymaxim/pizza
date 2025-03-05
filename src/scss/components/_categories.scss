@@ -1,6 +1,25 @@
 @import '../variables';
+.content__top{
+  @media (max-width: 500px) {
+    display: flex;
+    flex-direction: column;
+
+  }
+}
 
 .categories {
+  margin-right: 50px;
+  @media (max-width: 1200px) {
+    width: 800px;
+    overflow: auto;
+  }
+  @media (max-width: 500px) {
+    margin: 0;
+    width: 95%;
+    margin-bottom: 30px;
+
+  }
+
   ul {
     display: flex;
 
@@ -13,6 +32,10 @@
       cursor: pointer;
       transition: background-color 0.1s ease-in-out;
       @include noselect();
+      @media (max-width:500px) {
+        padding: 9px 17px;
+        margin-bottom: 2px;
+      }
 
       &:hover {
         background-color: darken(#f9f9f9, 2%);
