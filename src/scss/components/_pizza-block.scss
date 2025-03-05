@@ -5,19 +5,22 @@
   text-align: center;
   margin-bottom: 65px;
 
-  &:not(:nth-of-type(4n)) {
-    margin-right: 35px;
-  }
+
 
   &__image {
     width: 260px;
   }
 
   &__title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
     font-size: 20px;
     font-weight: 900;
     letter-spacing: 1%;
     margin-bottom: 20px;
+    margin-top: 5px;
   }
 
   &__selector {
@@ -28,6 +31,7 @@
     padding: 6px;
 
     ul {
+
       display: flex;
       flex: 1;
 
