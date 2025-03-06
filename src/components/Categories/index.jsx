@@ -9,7 +9,7 @@ function Categories({value, onClickActivCategories}) {
     'Острые',
     'Закрытые',
   ];
-  const [activCategories, setActivCategories] = useState(0);
+
 
   return (
     <div className="categories">
