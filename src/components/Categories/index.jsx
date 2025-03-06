@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 function Categories({value, onClickActivCategories}) {
   const categories = [
@@ -9,7 +9,7 @@ function Categories({value, onClickActivCategories}) {
     'Острые',
     'Закрытые',
   ];
-  const [activCategories, setActivCategories] = useState(0);
+
 
   return (
     <div className="categories">
