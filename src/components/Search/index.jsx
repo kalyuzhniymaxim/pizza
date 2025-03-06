@@ -1,9 +1,10 @@
 import React from 'react';
 import style from './Search.module.scss';
-function Search({ searchValue, setSearchValue }) {
-
+import { SearchContext } from '../../App';
+import { useContext } from 'react';
+function Search() {
+const {searchValue, setSearchValue} = useContext(SearchContext)
   return (
-
     <div className={style.root}>
       <img className={style.iconSearch} src="img/search.png" alt="" />
       <input
@@ -13,7 +14,14 @@ function Search({ searchValue, setSearchValue }) {
         type="text"
         placeholder="Поиск ..."
       />
-      {searchValue && <img onClick={()=>setSearchValue('')} className={style.iconClose} src="img/close.png" alt="Close" />}
+      {searchValue && (
+        <img
+          onClick={() => setSearchValue('')}
+          className={style.iconClose}
+          src="img/close.png"
+          alt="Close"
+        />
+      )}
     </div>
   );
 }

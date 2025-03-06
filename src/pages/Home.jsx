@@ -1,12 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import Sort from '../components/Sort';
 import Categories from '../components/Categories';
 import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Pagination from '../components/Pagination';
+import { SearchContext } from '../App';
 
-function Home({ searchValue }) {
+
+
+function Home() {
+  const { searchValue } = useContext(SearchContext);
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [activCategories, setActivCategories] = useState(0);
@@ -43,7 +47,7 @@ function Home({ searchValue }) {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">{isLoading ? arraySkeleton : filteredPizzas}</div>
-      <Pagination curentPage={curentPage} setCurentPage={(event)=>setCurentPage(event)} />
+      <Pagination curentPage={curentPage} setCurentPage={(event) => setCurentPage(event)} />
     </div>
   );
 }
