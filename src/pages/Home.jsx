@@ -1,4 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setActivCategories, setActiveSort } from '../redux/slices/filterSlice';
 
 import Sort from '../components/Sort';
 import Categories from '../components/Categories';
@@ -7,47 +9,57 @@ import Skeleton from '../components/PizzaBlock/Skeleton';
 import Pagination from '../components/Pagination';
 import { SearchContext } from '../App';
 
-
-
 function Home() {
+  const {activCategories, activeSort} = useSelector((state) => state.filter);
+
+  const dispatch = useDispatch();
+  const onClickActivCategories = (i) => {
+    dispatch(setActivCategories(i));
+  };
+  
+  const onClickActiveSort = (i) => {
+    dispatch(setActiveSort(i));
+  };
+
   const { searchValue } = useContext(SearchContext);
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [activCategories, setActivCategories] = useState(0);
   const [curentPage, setCurentPage] = useState(1);
-  const [activeSort, setActiveSort] = useState({
-    name: 'популярности DESC',
-    sortProperty: 'rating',
-  });
+
   const arraySkeleton = [...new Array(6)].map((_, i) => <Skeleton key={i} />);
   const filteredPizzas = items.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />);
 
-  const category = activCategories > 0 ? `category=${activCategories}` : '';
+  const category = activCategories ? `&category=${activCategories}` : '';
   const search = searchValue ? `&search=${searchValue}` : '';
   const order = activeSort.sortProperty.includes('-') ? 'asc' : 'desc';
   const sortBy = activeSort.sortProperty.replace('-', '');
 
   useEffect(() => {
     setIsLoading(true);
-    fetch(
-      `https://67c59241351c081993fa8d3d.mockapi.io/items?page=${curentPage}&limit=4${search}${category}&sortBy=${sortBy}&order=${order}`,
-    )
+    const url = `https://67c59241351c081993fa8d3d.mockapi.io/items?page=${curentPage}&limit=4${search}${category}&sortBy=${sortBy}&order=${order}`;
+    fetch(url)
       .then((res) => res.json())
       .then((json) => {
         setItems(json);
         setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error('Ошибка при загрузке данных:', error);
+        setItems([]);
+        setIsLoading(false);
       });
     window.scrollTo(0, 0);
   }, [activCategories, activeSort, searchValue, curentPage]);
+
   return (
     <div className="container">
       <div className="content__top">
-        <Categories value={activCategories} onClickActivCategories={(i) => setActivCategories(i)} />
-        <Sort value={activeSort} onClickActiveSort={(i) => setActiveSort(i)} />
+        <Categories value={activCategories} onClickActivCategories={onClickActivCategories} />
+        <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">{isLoading ? arraySkeleton : filteredPizzas}</div>
-      <Pagination curentPage={curentPage} setCurentPage={(event) => setCurentPage(event)} />
+      <Pagination curentPage={curentPage} setCurentPage={(page) => setCurentPage(page)} />
     </div>
   );
 }
