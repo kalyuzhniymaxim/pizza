@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setActivCategories, setActiveSort } from '../redux/slices/filterSlice';
+import { setActivCategories, setCurentPage } from '../redux/slices/filterSlice';
+import axios from 'axios';
 
 import Sort from '../components/Sort';
 import Categories from '../components/Categories';
@@ -10,21 +11,21 @@ import Pagination from '../components/Pagination';
 import { SearchContext } from '../App';
 
 function Home() {
-  const {activCategories, activeSort} = useSelector((state) => state.filter);
+  const { activCategories, activeSort, curentPage } = useSelector((state) => state.filter);
 
   const dispatch = useDispatch();
   const onClickActivCategories = (i) => {
     dispatch(setActivCategories(i));
   };
-  
-  const onClickActiveSort = (i) => {
-    dispatch(setActiveSort(i));
-  };
+
+  const onClickCurentPage = (i) => {
+   dispatch(setCurentPage(i))
+  }
 
   const { searchValue } = useContext(SearchContext);
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [curentPage, setCurentPage] = useState(1);
+  // const [curentPage, setCurentPage] = useState(1);
 
   const arraySkeleton = [...new Array(6)].map((_, i) => <Skeleton key={i} />);
   const filteredPizzas = items.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />);
@@ -36,16 +37,13 @@ function Home() {
 
   useEffect(() => {
     setIsLoading(true);
-    const url = `https://67c59241351c081993fa8d3d.mockapi.io/items?page=${curentPage}&limit=4${search}${category}&sortBy=${sortBy}&order=${order}`;
-    fetch(url)
-      .then((res) => res.json())
-      .then((json) => {
-        setItems(json);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error('Ошибка при загрузке данных:', error);
-        setItems([]);
+
+    axios
+      .get(
+        `https://67c59241351c081993fa8d3d.mockapi.io/items?page=${curentPage}&limit=4${search}${category}&sortBy=${sortBy}&order=${order}`,
+      )
+      .then((res) => {
+        setItems(res.data);
         setIsLoading(false);
       });
     window.scrollTo(0, 0);
@@ -59,7 +57,7 @@ function Home() {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">{isLoading ? arraySkeleton : filteredPizzas}</div>
-      <Pagination curentPage={curentPage} setCurentPage={(page) => setCurentPage(page)} />
+      <Pagination curentPage={curentPage} setCurentPage={onClickCurentPage} />
     </div>
   );
 }
