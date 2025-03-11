@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { setActiveSort } from '../../redux/slices/filterSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,17 +12,29 @@ export const sorts = [
   { name: 'алфавиту ASC', sortProperty: '-title' },
 ];
 function Sort() {
+  const SortRef = useRef();
   const activeSort = useSelector((state) => state.filter.activeSort);
   const dispatch = useDispatch();
 
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false); 
   const chooseSort = (i) => {
     dispatch(setActiveSort(i));
-    setOpen(!open);
+    setOpen(false); 
   };
+  useEffect(() => {
+    const handleClickOtside = (event) => {
+      if (SortRef.current && !SortRef.current.contains(event.target)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOtside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOtside);
+    };
+  }, []);
 
   return (
-    <div className="sort">
+    <div ref={SortRef} className="sort">
       <div className="sort__label">
         <svg
           width="10"
@@ -38,7 +50,7 @@ function Sort() {
         <b>Сортировка по:</b>
         <span onClick={() => setOpen(!open)}>{activeSort.name}</span>
       </div>
-      {!open && (
+      {open && (
         <div className="sort__popup">
           <ul>
             {sorts.map((obj, i) => (
