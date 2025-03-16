@@ -8,7 +8,7 @@ import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Pagination from '../components/Pagination';
 import { SearchContext } from '../App';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import NotFounds from './NotFounds';
 
 function Home() {
@@ -27,8 +27,6 @@ function Home() {
   };
 
   const { searchValue } = useContext(SearchContext);
-  // const [items, setItems] = useState([]);
-  // const [isLoading, setIsLoading] = useState(true);
 
   const getPizza = () => {
     const category = activCategories ? `&category=${activCategories}` : '';
@@ -48,7 +46,11 @@ function Home() {
   };
 
   const arraySkeleton = [...new Array(6)].map((_, i) => <Skeleton key={i} />);
-  const filteredPizzas = items.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />);
+  const filteredPizzas = items.map((pizza) => (
+    <Link key={pizza.id} to={`/pizza/${pizza.id}`}>
+      <PizzaBlock {...pizza} />
+    </Link>
+  ));
 
   // useEffect(() => {
   //   if (window.location.search) {
