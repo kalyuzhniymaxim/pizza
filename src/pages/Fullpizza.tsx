@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useParams,useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 function Fullpizza() {
   const { id } = useParams();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const [getPizza, SetGetPizza] = useState();
+  const [getPizza, SetGetPizza] = useState<{ title: string }>({ title: '' });
   useEffect(() => {
     async function getPizza() {
       try {
@@ -14,7 +14,7 @@ function Fullpizza() {
         console.log(data);
       } catch (err) {
         alert('Такой пиццы нет');
-        navigate('/')
+        navigate('/');
       }
     }
     getPizza();

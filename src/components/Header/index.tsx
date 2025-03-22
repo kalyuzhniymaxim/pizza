@@ -8,9 +8,8 @@ import logo from '../../../public/img/pizza-logo.svg'
 function Header() {
   const location = useLocation();
 
-
-  const { items, totalPrice } = useSelector((state) => state.cart);
-  const totalCount = items.reduce((acc, item) => item.count + acc, 0);
+  const { items, totalPrice } = useSelector((state:any) => state.cart);
+  const totalCount = items.reduce((acc:number, item:any) => item.count + acc, 0);
   return (
     <div className="header">
       <div className="container">

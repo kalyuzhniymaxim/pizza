@@ -3,7 +3,17 @@ import { useDispatch } from 'react-redux';
 import { addItems, cauntMinus, removeItems } from '../../redux/slices/cartSlice';
 
 
-function CartItems({ id, title, imageUrl, price, sizes, types, count }) {
+type CartObj = {
+  id: string;
+  title: string;
+  imageUrl: string;
+  price: number;
+  sizes: number;
+  types: number;
+  count: number;
+};
+
+const CartItems: React.FC<CartObj> = ({ id, title, imageUrl, price, sizes, types, count }) => {
   const dispatch = useDispatch();
   const onClickMinus = () => {
     dispatch(cauntMinus({ id }));
@@ -14,7 +24,6 @@ function CartItems({ id, title, imageUrl, price, sizes, types, count }) {
   const onClickRemove = () => {
     dispatch(removeItems(id));
   };
-
 
   return (
     <>
@@ -94,6 +103,6 @@ function CartItems({ id, title, imageUrl, price, sizes, types, count }) {
       </div>
     </>
   );
-}
+};
 
 export default CartItems;

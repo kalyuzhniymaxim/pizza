@@ -14,15 +14,15 @@ import NotFounds from './NotFounds';
 function Home() {
   const isSearch = useRef(false);
   const isMounted = useRef(false);
-  const { activCategories, activeSort, curentPage } = useSelector((state) => state.filter);
-  const { items, isLoading } = useSelector((state) => state.pizzas);
+  const { activCategories, activeSort, curentPage } = useSelector((state: any) => state.filter);
+  const { items, isLoading } = useSelector((state: any) => state.pizzas);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const onClickActivCategories = (i) => {
+  const onClickActivCategories = (i: number) => {
     dispatch(setActivCategories(i));
   };
 
-  const onClickCurentPage = (i) => {
+  const onClickCurentPage = (i: number) => {
     dispatch(setCurentPage(i));
   };
 
@@ -35,6 +35,7 @@ function Home() {
     const sortBy = activeSort.sortProperty.replace('-', '');
 
     dispatch(
+      //@ts-ignorets
       featchPizzas({
         category,
         search,
@@ -46,7 +47,7 @@ function Home() {
   };
 
   const arraySkeleton = [...new Array(6)].map((_, i) => <Skeleton key={i} />);
-  const filteredPizzas = items.map((pizza) => (
+  const filteredPizzas = items.map((pizza: any) => (
     <Link key={pizza.id} to={`/pizza/${pizza.id}`}>
       <PizzaBlock {...pizza} />
     </Link>

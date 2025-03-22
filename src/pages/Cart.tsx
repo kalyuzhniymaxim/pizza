@@ -9,7 +9,7 @@ import { clearItems, selectCart } from '../redux/slices/cartSlice';
 function Cart() {
   const dispatch = useDispatch();
   const { items, totalPrice } = useSelector(selectCart);
-  const totalCount = items.reduce((acc, item) => item.count + acc, 0);
+  const totalCount = items.reduce((acc:number, item:any) => item.count + acc, 0);
   const onClickClearItems = () => {
     dispatch(clearItems());
   };
@@ -92,7 +92,7 @@ function Cart() {
           </div>
         </div>
         <div className="content__items">
-          {items.map((item) => (
+          {items.map((item:any) => (
             <CartItems key={item.id} {...item} />
           ))}
         </div>

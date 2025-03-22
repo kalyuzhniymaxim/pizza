@@ -6,13 +6,13 @@ import debounce from 'lodash.debounce';
 function Search() {
   const [value, setValue] = useState('');
   const { searchValue, setSearchValue } = useContext(SearchContext);
-  const InputRef = useRef();
+  const InputRef = useRef<HTMLInputElement>(null);
   const onClickClear = () => {
     setSearchValue('');
     setValue('');
-    InputRef.current.focus();
+    InputRef.current?.focus();
   };
-  const onChangeInput = (event) => {
+  const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
     updateSearchValue(event.target.value);
   };
