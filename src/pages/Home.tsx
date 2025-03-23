@@ -10,14 +10,17 @@ import Pagination from '../components/Pagination';
 import { SearchContext } from '../App';
 import { Link, useNavigate } from 'react-router-dom';
 import NotFounds from './NotFounds';
+import { RootState, useAppDispatch } from '../redux/store';
 
 function Home() {
   const isSearch = useRef(false);
   const isMounted = useRef(false);
-  const { activCategories, activeSort, curentPage } = useSelector((state: any) => state.filter);
-  const { items, isLoading } = useSelector((state: any) => state.pizzas);
+  const { activCategories, activeSort, curentPage } = useSelector(
+    (state: RootState) => state.filter,
+  );
+  const { items, isLoading } = useSelector((state: RootState) => state.pizzas);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const onClickActivCategories = (i: number) => {
     dispatch(setActivCategories(i));
   };
@@ -35,23 +38,18 @@ function Home() {
     const sortBy = activeSort.sortProperty.replace('-', '');
 
     dispatch(
-      //@ts-ignorets
       featchPizzas({
         category,
         search,
         order,
         sortBy,
-        curentPage,
+        curentPage: String(curentPage),
       }),
     );
   };
 
   const arraySkeleton = [...new Array(6)].map((_, i) => <Skeleton key={i} />);
-  const filteredPizzas = items.map((pizza: any) => (
-    <Link key={pizza.id} to={`/pizza/${pizza.id}`}>
-      <PizzaBlock {...pizza} />
-    </Link>
-  ));
+  const filteredPizzas = items.map((pizza: any) => <PizzaBlock {...pizza} />);
 
   // useEffect(() => {
   //   if (window.location.search) {
