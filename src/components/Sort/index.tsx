@@ -2,8 +2,14 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import { setActiveSort } from '../../redux/slices/filterSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
-export const sorts = [
+type sortsType = {
+  name: string;
+  sortProperty: string;
+};
+
+export const sorts: sortsType[] = [
   { name: 'популярности DESC', sortProperty: 'rating' },
   { name: 'популярности ASC', sortProperty: '-rating' },
   { name: 'цене DESC', sortProperty: 'price' },
@@ -11,25 +17,25 @@ export const sorts = [
   { name: 'алфавиту DESC', sortProperty: 'title' },
   { name: 'алфавиту ASC', sortProperty: '-title' },
 ];
-function Sort() {
-  const SortRef = useRef();
-  const activeSort = useSelector((state) => state.filter.activeSort);
+const Sort = () => {
+  const SortRef = useRef<HTMLDivElement>(null);
+  const activeSort = useSelector((state: RootState) => state.filter.activeSort);
   const dispatch = useDispatch();
 
-  const [open, setOpen] = useState(false); 
-  const chooseSort = (i) => {
-    dispatch(setActiveSort(i));
-    setOpen(false); 
+  const [open, setOpen] = useState(false);
+  const chooseSort = (obj: sortsType) => {
+    dispatch(setActiveSort(obj));
+    setOpen(false);
   };
   useEffect(() => {
-    const handleClickOtside = (event) => {
-      if (SortRef.current && !SortRef.current.contains(event.target)) {
+    const handleClickOtside = (event: MouseEvent) => {
+      if (SortRef.current && !SortRef.current.contains(event.target as Node)) {
         setOpen(false);
       }
     };
-    document.addEventListener('mousedown', handleClickOtside);
+    document.body.addEventListener('mousedown', handleClickOtside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOtside);
+      document.body.removeEventListener('mousedown', handleClickOtside);
     };
   }, []);
 
@@ -66,6 +72,6 @@ function Sort() {
       )}
     </div>
   );
-}
+};
 
 export default Sort;
