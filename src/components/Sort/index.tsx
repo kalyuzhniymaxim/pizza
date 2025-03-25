@@ -2,12 +2,18 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import { setActiveSort } from '../../redux/slices/filterSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
+import { useWhyDidYouUpdate } from 'ahooks';
+
 
 type sortsType = {
   name: string;
-  sortProperty: string;
+  sortProperty: 'rating' | 'price' | 'title' | '-rating' | '-price' | '-title';
 };
+
+interface SortProps {
+  activeSort: sortsType;
+}
+
 
 export const sorts: sortsType[] = [
   { name: 'популярности DESC', sortProperty: 'rating' },
@@ -17,9 +23,9 @@ export const sorts: sortsType[] = [
   { name: 'алфавиту DESC', sortProperty: 'title' },
   { name: 'алфавиту ASC', sortProperty: '-title' },
 ];
-const Sort = () => {
+const Sort:React.FC<SortProps> = React.memo(({activeSort}) => {
   const SortRef = useRef<HTMLDivElement>(null);
-  const activeSort = useSelector((state: RootState) => state.filter.activeSort);
+  useWhyDidYouUpdate('useWhyDidYouUpdateSort', {activeSort})
   const dispatch = useDispatch();
 
   const [open, setOpen] = useState(false);
@@ -72,6 +78,6 @@ const Sort = () => {
       )}
     </div>
   );
-};
+});
 
 export default Sort;

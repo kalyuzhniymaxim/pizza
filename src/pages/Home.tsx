@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setActivCategories, setCurentPage, setFilter } from '../redux/slices/filterSlice';
 import { setItems, featchPizzas } from '../redux/slices/pizzasSlice';
@@ -21,9 +21,9 @@ function Home() {
   const { items, isLoading } = useSelector((state: RootState) => state.pizzas);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const onClickActivCategories = (i: number) => {
+  const onClickActivCategories = useCallback((i: number) => {
     dispatch(setActivCategories(i));
-  };
+  }, []);
 
   const onClickCurentPage = (i: number) => {
     dispatch(setCurentPage(i));
@@ -49,7 +49,7 @@ function Home() {
   };
 
   const arraySkeleton = [...new Array(6)].map((_, i) => <Skeleton key={i} />);
-  const filteredPizzas = items.map((pizza: any) => <PizzaBlock {...pizza} />);
+  const filteredPizzas = items.map((pizza: any) => <PizzaBlock key={pizza.id} {...pizza} />);
 
   // useEffect(() => {
   //   if (window.location.search) {
@@ -91,7 +91,7 @@ function Home() {
     <div className="container">
       <div className="content__top">
         <Categories value={activCategories} onClickActivCategories={onClickActivCategories} />
-        <Sort />
+        <Sort activeSort={activeSort}/>
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">

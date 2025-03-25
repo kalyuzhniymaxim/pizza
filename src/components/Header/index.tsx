@@ -8,7 +8,7 @@ import { RootState } from '../../redux/store';
 
 function Header() {
   const location = useLocation();
-
+  console.log('Header перерисован!', location.pathname);
   const { items, totalPrice } = useSelector((state:RootState) => state.cart);
   const totalCount = items.reduce((acc:number, item) => item.count + acc, 0);
   return (

@@ -40,17 +40,17 @@ const pizzasSlice = createSlice({
     builder.addCase(featchPizzas.pending, (state) => {
       state.isLoading = true; // Устанавливаем isLoading в true
       state.error = null; // Сбрасываем ошибку
-      console.log('ожидание');
+      // console.log('ожидание');
     });
     builder.addCase(featchPizzas.fulfilled, (state, action) => {
       state.isLoading = false; // Устанавливаем isLoading в false
       state.items = action.payload; // Загружаем данные
-      console.log(state, 'успешно');
+      // console.log(state, 'успешно');
     });
     builder.addCase(featchPizzas.rejected, (state, action) => {
       state.isLoading = false; // Устанавливаем isLoading в false
       state.error = action.error.message; // Сохраняем сообщение об ошибке
-      console.log('ошибка');
+      // console.log('ошибка');
     });
   },
 });

@@ -1,11 +1,13 @@
 import React from 'react';
+import { useWhyDidYouUpdate } from 'ahooks';
 
 type CategoriesType = {
   value: number;
   onClickActivCategories: any;
 };
 
-const Categories: React.FC<CategoriesType> = ({ value, onClickActivCategories }) => {
+const Categories: React.FC<CategoriesType> = React.memo(({ value, onClickActivCategories }) => {
+  // useWhyDidYouUpdate('useWhyDidYouUpdateCategories', {value, onClickActivCategories})
   const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
 
   return (
@@ -22,6 +24,6 @@ const Categories: React.FC<CategoriesType> = ({ value, onClickActivCategories })
       </ul>
     </div>
   );
-};
+});
 
 export default Categories;
