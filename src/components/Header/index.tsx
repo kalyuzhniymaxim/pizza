@@ -1,16 +1,24 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Search from '../Search';
 import { useSelector } from 'react-redux';
 
-import logo from '../../../public/img/pizza-logo.svg'
+import logo from '../../../public/img/pizza-logo.svg';
 import { RootState } from '../../redux/store';
 
 function Header() {
   const location = useLocation();
-
-  const { items, totalPrice } = useSelector((state:RootState) => state.cart);
-  const totalCount = items.reduce((acc:number, item) => item.count + acc, 0);
+  const ref = useRef(false);
+  const { items, totalPrice } = useSelector((state: RootState) => state.cart);
+  const totalCount = items.reduce((acc: number, item) => item.count + acc, 0);
+  useEffect(() => {
+    if (ref.current) {
+      const json = JSON.stringify(items);
+      localStorage.setItem('items', json);
+      console.log(json);
+    }
+    ref.current = true;
+  }, [items, totalPrice]);
   return (
     <div className="header">
       <div className="container">

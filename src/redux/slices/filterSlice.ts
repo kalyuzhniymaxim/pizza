@@ -1,7 +1,7 @@
 import { TypeAction } from '@mui/material';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-type Sort = {
+export type Sort = {
   name: string;
   sortProperty: 'rating' | 'price' | 'title' | '-rating' | '-price' | '-title';
 };

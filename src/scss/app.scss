@@ -69,8 +69,6 @@ body {
 }
 
 .cart {
-
-
   &__top {
     display: flex;
     justify-content: space-between;
@@ -124,7 +122,6 @@ body {
         color: darken($color: #b6b6b6, $amount: 50);
       }
     }
-
   }
   .content__items {
     display: block;
@@ -174,6 +171,22 @@ body {
       width: 13%;
 
       &-minus {
+
+        &--disabled{
+          opacity: 0.6;
+          color: #ffffff;
+          background-color: #b6b6b6;
+          border-color: #b6b6b6;
+          svg {
+            path {
+              fill: #fff;
+            }
+          }
+          &:hover {
+            background-color: #b6b6b6;
+          }
+        }
+
         svg {
           path:first-of-type {
             display: none;
